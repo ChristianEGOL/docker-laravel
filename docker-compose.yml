@@ -1,0 +1,46 @@
+version: '3'
+services: 
+  app:
+    env_file: 
+      - .env
+    build: 
+      context: .
+      dockerfile: Dockerfile
+      args: 
+        USER: secret
+        UID: 1000
+    volumes: 
+      - .:/var/www/html
+    networks: 
+     - laravel
+  web:
+    image: nginx:latest
+    restart: unless-stopped
+    networks:
+      - laravel
+    volumes: 
+      - .:/var/www/html
+      - ./docker-compose/nginx:/etc/nginx/conf.d
+    ports:
+      - 8000:80
+  db:
+    restart: unless-stopped
+    env_file: 
+      - .env
+    image: mariadb:10.4
+    volumes: 
+      - mariadb-data:/var/lib/mysql
+      - ./docker-compose/mysql:/docker-entrypoint-initdb.d
+    environment: 
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    networks:
+      - laravel
+volumes: 
+  mariadb-data:
+networks:
+  laravel:
+    external:
+      name: laravel-app

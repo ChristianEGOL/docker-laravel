@@ -1,0 +1,44 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the README at:
+// https://github.com/microsoft/vscode-dev-containers/tree/v0.154.2/containers/docker-existing-dockerfile
+{
+	"name": "PHP FPM 8.0.1",
+	"service": "app",
+	// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
+	"dockerComposeFile": "../docker-compose.yml",
+
+	"workspaceFolder": "/var/www/html",
+
+	// Set *default* container specific settings.json values on container create.
+	"settings": { 
+		"terminal.integrated.shell.linux": "/bin/bash",
+		"sqltools.connections": [
+			{
+				"name": "MySQL",
+				"server": "localhost",
+				"driver": "MySQL",
+				"port": 3306,
+				"database": "mariadb",
+				"username": "root",
+				"askForPassword": false,
+				"password": "mariadb",
+				"connectionTimeout": 15
+			  }
+		]
+	},
+
+	// Add the IDs of extensions you want installed when the container is created.
+	"extensions": [
+		"onecentlin.laravel-blade",
+		"valeryanm.vscode-phpsab",
+		"bmewburn.vscode-intelephense-client",
+		"mehedidracula.php-namespace-resolver",
+		"mtxr.sqltools",
+		"mtxr.sqltools-driver-mysql"
+	],
+
+	// Use 'forwardPorts' to make a list of ports inside the container available locally.
+	// "forwardPorts": [80, 3306],
+
+	// Uncomment to connect as a non-root user if you've added one. See https://aka.ms/vscode-remote/containers/non-root.
+	// "remoteUser": "vscode" 
+}
